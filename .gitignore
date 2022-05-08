@@ -103,5 +103,8 @@ dist
 # TernJS port file
 .tern-port
 
-# Nextjs folder
+# Nextjs directory
 .next
+
+# VS Code directory
+.vscode
