@@ -1,0 +1,40 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Airplane {
+  id        String    @id @default(cuid())
+  icao      String    @unique
+  createdAt DateTime  @default(now())
+  lastSeen  DateTime  @default(now()) @updatedAt
+  Messages  Message[]
+  Flights   Flight[]
+}
+
+model Message {
+  id       String   @id @default(cuid())
+  Plane    Airplane @relation(fields: [planeId], references: [icao])
+  planeId  String
+  lat      Float
+  lon      Float
+  speed    Int
+  alt      Int
+  time     DateTime @default(now())
+  callSign String?
+  Flight   Flight   @relation(fields: [flightId], references: [id])
+  flightId String
+}
+
+model Flight {
+  id          String    @id @default(cuid())
+  Plane       Airplane  @relation(fields: [planeId], references: [icao])
+  Messages    Message[]
+  planeId     String
+  timeStarted DateTime
+  timeEnded   DateTime?
+}
