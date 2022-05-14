@@ -1,0 +1,13 @@
+.mainContainer {
+  margin: 0 auto;
+  max-width: 1680px;
+}
+
+.gridContainer {
+  display: grid;
+  justify-content: space-around;
+  justify-items: center;
+  align-items: center;
+  grid-template: 2rem / repeat(5, 1fr);
+  gap: .5rem;
+}
