@@ -119,6 +119,7 @@ const saveOnExit = async () => {
       console.log("Done.");
       await prisma.$disconnect();
       pushing = false;
+      process.exit(0);
     }
   } while (pushing);
 };
