@@ -1,4 +1,4 @@
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { createFlight, updateFlight, upsertAirplane, createNewMessage } from "./prismaPlaneTracking";
 import { HTTPData, Message, LastPos, MessagesObj } from "../types/Message";
 import { prisma } from "./prisma";
