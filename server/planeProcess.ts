@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { createFlight, updateFlight, upsertAirplane, createNewMessage } from "./prismaPlaneTracking";
 import { HTTPData, Message, LastPos, MessagesObj } from "../types/Message";
 import { prisma } from "./prisma";
@@ -7,9 +7,13 @@ let messages: MessagesObj = {};
 let pushing = false;
 
 const getAirplaneData = async () => {
-  let res = await axios.get(`http://192.168.1.96/skyaware/data/aircraft.json`);
-  let { data } = res;
-  return data;
+  try {
+    let res = await axios.get(`http://192.168.1.96/skyaware/data/aircraft.json`);
+    let { data } = res;
+    return data;
+  } catch (e) {
+    return Promise.reject(e)
+  }
 };
 
 const processData = (data: { aircraft: HTTPData[] }) => {
@@ -106,6 +110,12 @@ const purgeOldMessages = async () => {
 const saveOnExit = async () => {
   console.log("CTRL-C command received.");
 
+  if (Object.keys(messages).length === 0) {
+    console.log("No messages to process. Exiting.")
+    await prisma.$disconnect();
+    process.exit(0);
+  }
+
   do {
     if (!pushing) {
       pushing = true;
@@ -127,21 +137,22 @@ const saveOnExit = async () => {
 const start = async () => {
   let pushInterval = 5 * 1000;
   let time = Date.now();
+  prisma.$connect();
 
   setInterval(async () => {
     if (!pushing) {
-      let data = await getAirplaneData();
+      let data = await getAirplaneData().catch(e => console.log("Error fetching data from Flight Aware: \n", e));
       if (data) {
         processData(data);
       }
     }
 
-    if (Date.now() - time >= pushInterval) {
+    if (Date.now() - time >= pushInterval && Object.keys(messages).length > 0) {
       time = Date.now();
       pushing = true;
       console.log(`Pushing ${Object.values(messages).filter((el) => !el.pushed).length} Messages...`);
-      await pushMessages();
-      await purgeOldMessages();
+      await pushMessages().catch(e => console.log("Error while pushing messages: \n", e));
+      await purgeOldMessages().catch(e => console.log("Error while clearing old messages: \n", e));
       pushing = false;
     }
   }, 1 * 1000);
