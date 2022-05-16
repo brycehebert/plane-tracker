@@ -17,8 +17,7 @@ const Photo = (props: { icao: string }) => {
           if (res.data.photos) {
             if (res.data.photos.length > 0) {
               let src = res.data.photos[0].thumbnail.src;
-              let credit = res.data.photos[0].photographer;
-              let link = res.data.photos[0].link;
+              let { photographer: credit, link } = res.data.photos[0];
               setImg({ src, credit, link });
             }
           }
@@ -43,14 +42,26 @@ const PhotoView = (props: PhotoProps): JSX.Element => {
         <div></div>
       ) : (
         <div>
-          <a href={img.link} target="_blank" rel="noreferrer">
-            <img src={img.src ? img.src : "/noimg.png"} />
-          </a>
-          {img.credit ? <p> &copy; {img.credit} </p> : ""}
+          <PhotoLink img={img} />
+          <p>{img.credit ? `\u00A9 ${img.credit}` : ""}</p>
         </div>
       )}
     </td>
   );
+};
+
+const PhotoLink = (props: Omit<PhotoProps, "loading">) => {
+  const { src, link, credit } = props.img;
+
+  if (src && link) {
+    return (
+      <a href={link} target="_blank" rel="noreferrer">
+        <img src={src} title={`Photo by ${credit}`} alt={`Photo by ${credit}`} />
+      </a>
+    );
+  }
+
+  return <img src="/noimg.png" title="No Image Available" alt="No Image Available" />;
 };
 
 interface PhotoProps {
