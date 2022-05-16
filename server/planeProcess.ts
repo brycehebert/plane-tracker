@@ -147,7 +147,7 @@ const start = async () => {
       }
     }
 
-    if (Date.now() - time >= pushInterval && Object.keys(messages).length > 0) {
+    if (Date.now() - time >= pushInterval && Object.values(messages).filter((el) => !el.pushed).length > 0) {
       time = Date.now();
       pushing = true;
       console.log(`Pushing ${Object.values(messages).filter((el) => !el.pushed).length} Messages...`);
