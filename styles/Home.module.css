@@ -3,11 +3,19 @@
   max-width: 1680px;
 }
 
-.gridContainer {
-  display: grid;
-  justify-content: space-around;
-  justify-items: center;
-  align-items: center;
-  grid-template: 2rem / repeat(5, 1fr);
-  gap: .5rem;
+.flightTable {
+  width: 100%;
+  text-align: center;
+  background-color: aliceblue;
+}
+
+.flightTable th {
+  font-size: 1.2rem;
+  padding: 24px 0;
+}
+
+.flightTable caption {
+  font-size: 2rem;
+  padding: 24px 0;
+  background-color: azure;
 }
