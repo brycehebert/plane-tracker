@@ -1,0 +1,16 @@
+.photo {
+  min-height: 120px;
+}
+
+.photo div {
+  width: fit-content;
+  margin: 0 auto;
+  min-height: 120px;
+}
+
+.photo p {
+  text-align: left;
+  margin: 0;
+  padding: 0 0 12px 0;
+  font-size: .75rem;
+}

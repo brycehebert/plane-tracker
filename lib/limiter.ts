@@ -1,5 +1,5 @@
 import Bottleneck from "bottleneck";
 
-const limiter = new Bottleneck({maxConcurrent: 3, minTime: 200});
+const limiter = new Bottleneck({maxConcurrent: 2});
 
 export default limiter;
