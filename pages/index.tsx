@@ -2,6 +2,7 @@ import dynamic from "next/dynamic";
 import { GetServerSideProps } from "next";
 import { prisma } from "../server/prisma";
 import Plane from "../components/Plane";
+import dateOptions from "../lib/dateOptions";
 import styles from "../styles/Home.module.css";
 
 const index = ({ data }: any): JSX.Element => {
@@ -14,7 +15,7 @@ const index = ({ data }: any): JSX.Element => {
         <caption>Most Recent Sightings</caption>
         <thead>
           <tr>
-            <th></th>
+            <th scope="col">Photo</th>
             <th scope="col">Call Sign</th>
             <th scope="col">First Seen</th>
             <th scope="col">Last Seen</th>
@@ -34,24 +35,29 @@ const index = ({ data }: any): JSX.Element => {
 export default index;
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  let data = await prisma.airplane.findMany({
-    take: 15,
-    orderBy: { lastSeen: "desc" },
-    include: {
-      Messages: { take: 5, select: { callSign: true } }
-    }
-  });
+  try {
+    let data = await prisma.airplane.findMany({
+      take: 15,
+      orderBy: { lastSeen: "desc" },
+      include: {
+        Messages: { take: 1, select: { callSign: true } }
+      }
+    });
 
-  //@ts-expect-error
-  data = data.map((el) => {
+    //@ts-expect-error
+    data = data.map((el) => {
+      return {
+        ...el,
+        createdAt: el.createdAt.toLocaleString(undefined, dateOptions),
+        lastSeen: el.lastSeen.toLocaleString(undefined, dateOptions)
+      };
+    });
+
     return {
-      ...el,
-      createdAt: el.createdAt.toLocaleString(),
-      lastSeen: el.lastSeen.toLocaleString()
+      props: { data }
     };
-  });
-
-  return {
-    props: { data }
-  };
+  } catch (e) {
+    console.error("Error in getServerSideProps in index.tsx", e);
+    return { props: {} };
+  }
 };
