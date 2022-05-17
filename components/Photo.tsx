@@ -3,7 +3,7 @@ import styles from "../styles/Photo.module.css";
 import limiter from "../lib/limiter";
 import axios from "axios";
 
-const Photo = (props: { icao: string }) => {
+const Photo = (props: { icao: string }): JSX.Element => {
   const { icao } = props;
   const [img, setImg] = useState({ src: "", credit: "", link: "" });
   const [loading, setLoading] = useState(true);
@@ -50,7 +50,7 @@ const PhotoView = (props: PhotoProps): JSX.Element => {
   );
 };
 
-const PhotoLink = (props: Omit<PhotoProps, "loading">) => {
+const PhotoLink = (props: Omit<PhotoProps, "loading">): JSX.Element => {
   const { src, link, credit } = props.img;
 
   if (src && link) {
