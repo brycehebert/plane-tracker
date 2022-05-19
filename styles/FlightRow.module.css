@@ -1,0 +1,3 @@
+.flightContainer {
+  transition: height .33s ease-in-out;
+}
