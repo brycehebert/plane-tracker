@@ -2,13 +2,13 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "../../../server/prisma";
 
 const handler = async (req:NextApiRequest, res:NextApiResponse) => {
-  // @ts-ignore
-  const {flightId}:string = req.query;
+  
+  const {flightId} = req.query as { [key: string]: string };
 
   try {
     let result = await prisma.flight.findUnique({
       where: {id: flightId},
-      include: {Messages: {select: {lat:true, lon: true}}}
+      include: {Messages: {select: {lat:true, lon: true, alt: true, time: true}, orderBy:{time: "asc"}}}
     })
 
     if (result){
