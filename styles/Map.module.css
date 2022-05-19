@@ -1,3 +1,4 @@
-.Map {
-  height: 95vh;
+.MapContainer {
+  height: 100%;
+  min-height: 100%;
 }
