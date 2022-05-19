@@ -1,4 +1,3 @@
-import dynamic from "next/dynamic";
 import { GetServerSideProps } from "next";
 import { prisma } from "../server/prisma";
 import Plane from "../components/Plane";
@@ -6,9 +5,6 @@ import dateOptions from "../lib/dateOptions";
 import styles from "../styles/Home.module.css";
 
 const index = ({ data }: any): JSX.Element => {
-  // React-Leaflet doesn't work with SSR, must do Client-Side
-  const MapWithNoSSR = dynamic(() => import("../components/Map"), { ssr: false });
-
   return (
     <div className={styles.mainContainer}>
       <table className={styles.flightTable}>
@@ -40,7 +36,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
       take: 15,
       orderBy: { lastSeen: "desc" },
       include: {
-        Messages: { take: 1, select: { callSign: true } }
+        Messages: { take: 1, select: { callSign: true }, orderBy: { time: "desc" } }
       }
     });
 
@@ -49,7 +45,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
       return {
         ...el,
         createdAt: el.createdAt.toLocaleString(undefined, dateOptions),
-        lastSeen: el.lastSeen.toLocaleString(undefined, dateOptions)
+        lastSeen: el.lastSeen.toLocaleString(undefined, { ...dateOptions, second: "2-digit" })
       };
     });
 
