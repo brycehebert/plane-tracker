@@ -4,7 +4,7 @@ const getPositions = async (flightId: string) => {
   try {
     let result = await axios.get(`/api/flights/${flightId}`);
     const messages = result.data.Messages;
-    let positions: number[][] = [];
+    let positions: [number, number][] = [];
 
     for (let el of messages) {
       positions.push([el.lat, el.lon]);
@@ -14,7 +14,7 @@ const getPositions = async (flightId: string) => {
 
   } catch (err) {
     console.log(err);
-    return [[]];
+    return [];
   }
 };
 

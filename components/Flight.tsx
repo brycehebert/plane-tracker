@@ -6,7 +6,7 @@ import dynamic from "next/dynamic";
 
 const Flight = (props: FlightType): JSX.Element => {
   const { id: flightId } = props;
-  const [positions, setPositions] = useState<number[][]>([]);
+  const [positions, setPositions] = useState<[number,number][]>([]);
 
   useEffect(() => {
     getPositions(flightId).then((data) => setPositions(data));
@@ -24,7 +24,7 @@ const FlightView = (props: ViewProps): JSX.Element => {
 };
 
 interface ViewProps {
-  positions: number[][];
+  positions: [number, number][];
 }
 
 export default Flight;
