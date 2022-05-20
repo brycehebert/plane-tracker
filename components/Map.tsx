@@ -1,11 +1,37 @@
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
 import "leaflet-defaulticon-compatibility";
-import { MapContainer, TileLayer, Marker, Popup, Polyline } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Polyline } from "react-leaflet";
 import styles from "../styles/Map.module.css";
+import L from "leaflet";
 
-const Map = ({ positions }: any): JSX.Element => {
-  const bounds = [positions[0], positions[positions.length - 1]];
+const getBounds = (positions: [number, number][]) => {
+  let maxLat = positions[0][0];
+  let maxLon = positions[0][1];
+  let minLat = positions[0][0];
+  let minLon = positions[0][1];
+  
+  for (let el of positions) {
+    if (el[0] > maxLat) {
+      maxLat = el[0];
+    }
+    if (el[0] < minLat) {
+      minLat = el[0];
+    }
+    if (el[1] > maxLon) {
+      maxLon = el[1];
+    }
+    if (el[1] < minLon) {
+      minLon = el[1];
+    }
+  }
+  const topLeft = L.latLng(maxLat, minLon);
+  const bottomRight = L.latLng(minLat, maxLon);
+  return new L.LatLngBounds(topLeft, bottomRight);
+}
+
+const Map = ({ positions }: {positions: [number, number][]}): JSX.Element => {
+  const bounds = getBounds(positions)
 
   return (
     <MapContainer className={styles.MapContainer} bounds={bounds} scrollWheelZoom={false}>
