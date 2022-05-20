@@ -5,8 +5,7 @@ import styles from "../styles/Home.module.css";
 import FlightRow from "../components/FlightRow";
 import { Flight as FlightType } from "@prisma/client";
 
-const flights = ({data}: {data: FlightType[]}) => {
-
+const flights = ({ data }: { data: FlightType[] }) => {
   return (
     <div className={styles.mainContainer}>
       <table className={styles.flightTable}>
@@ -19,7 +18,9 @@ const flights = ({data}: {data: FlightType[]}) => {
           </tr>
         </thead>
         <tbody>
-          {data.map((el) => <FlightRow {...el} key={el.id}/>)}
+          {data.map((el) => (
+            <FlightRow {...el} key={el.id} />
+          ))}
         </tbody>
       </table>
     </div>

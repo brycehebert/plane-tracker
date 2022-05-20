@@ -26,12 +26,11 @@ const FlightRow = (props: FlightType): JSX.Element => {
   };
 
   const handleTransitionEnd = (e: React.TransitionEvent) => {
-      const { id } = e.target as EventTarget & { id: string };
-      if (id === flightId) {
-        setShowMap(!showMap);
-      }
-      setTransitioning(false);
-    
+    const { id } = e.target as EventTarget & { id: string };
+    if (id === flightId) {
+      setShowMap(!showMap);
+    }
+    setTransitioning(false);
   };
 
   return (
@@ -64,7 +63,7 @@ const FlightRowView = (props: ViewProps): JSX.Element => {
           onTransitionEnd={handleTransitionEnd}
           style={{ height: height }}
         >
-          {showMap ? <Flight {...props.flight}/> : <></> }
+          {showMap ? <Flight {...props.flight} /> : <></>}
         </td>
       </tr>
     </>

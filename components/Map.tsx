@@ -10,7 +10,7 @@ const getBounds = (positions: [number, number][]) => {
   let maxLon = positions[0][1];
   let minLat = positions[0][0];
   let minLon = positions[0][1];
-  
+
   for (let el of positions) {
     if (el[0] > maxLat) {
       maxLat = el[0];
@@ -28,10 +28,10 @@ const getBounds = (positions: [number, number][]) => {
   const topLeft = L.latLng(maxLat, minLon);
   const bottomRight = L.latLng(minLat, maxLon);
   return new L.LatLngBounds(topLeft, bottomRight);
-}
+};
 
-const Map = ({ positions }: {positions: [number, number][]}): JSX.Element => {
-  const bounds = getBounds(positions)
+const Map = ({ positions }: { positions: [number, number][] }): JSX.Element => {
+  const bounds = getBounds(positions);
 
   return (
     <MapContainer className={styles.MapContainer} bounds={bounds} scrollWheelZoom={false}>
@@ -40,8 +40,7 @@ const Map = ({ positions }: {positions: [number, number][]}): JSX.Element => {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <Polyline positions={positions} smoothFactor={1.0} />
-      <Marker position={positions[0]}>
-      </Marker>
+      <Marker position={positions[0]}></Marker>
     </MapContainer>
   );
 };

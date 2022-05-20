@@ -3,7 +3,7 @@ import { prisma } from "../../server/prisma";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    let data = await prisma.airplane.findMany({
+    let result = await prisma.airplane.findMany({
       take: 10,
       orderBy: { lastSeen: "desc" },
       include: {
@@ -11,9 +11,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         Flights: true
       }
     });
-    data;
-    res.status(200).json(data);
-  } catch (e) {}
+    res.status(200).json(result);
+  } catch (e) {
+    console.log(e);
+  }
 };
 
 export default handler;

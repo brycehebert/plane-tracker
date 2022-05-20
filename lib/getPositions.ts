@@ -9,9 +9,8 @@ const getPositions = async (flightId: string) => {
     for (let el of messages) {
       positions.push([el.lat, el.lon]);
     }
-    
-    return positions;
 
+    return positions;
   } catch (err) {
     console.log(err);
     return [];

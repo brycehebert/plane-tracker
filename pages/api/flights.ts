@@ -1,23 +1,20 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "../../server/prisma";
 
-
-
-const handler = async (req:NextApiRequest, res:NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     let result = await prisma.flight.findMany({
       take: 15,
-      where: {NOT: {timeEnded: null}},
+      where: { NOT: { timeEnded: null } },
       include: {
         Messages: {}
       },
-      orderBy: {timeEnded: "desc"}
-    })
+      orderBy: { timeEnded: "desc" }
+    });
     res.json(result);
-
   } catch (e) {
     console.log(e);
   }
-}
+};
 
-export default handler
+export default handler;

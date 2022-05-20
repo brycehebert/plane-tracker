@@ -6,7 +6,7 @@ import dynamic from "next/dynamic";
 
 const Flight = (props: FlightType): JSX.Element => {
   const { id: flightId } = props;
-  const [positions, setPositions] = useState<[number,number][]>([]);
+  const [positions, setPositions] = useState<[number, number][]>([]);
 
   useEffect(() => {
     getPositions(flightId).then((data) => setPositions(data));
@@ -20,7 +20,11 @@ const FlightView = (props: ViewProps): JSX.Element => {
   //Leaflet doesn't work with NextJS SSR, so it must be done client side.
   const MapWithNoSSR = dynamic(() => import("../components/Map"), { ssr: false });
 
-  return <div className={styles.mapContainer}>{positions[0] ? <MapWithNoSSR positions={positions} /> : <div>Loading</div>}</div>;
+  return (
+    <div className={styles.mapContainer}>
+      {positions[0] ? <MapWithNoSSR positions={positions} /> : <div>Loading</div>}
+    </div>
+  );
 };
 
 interface ViewProps {
