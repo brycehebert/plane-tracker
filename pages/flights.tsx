@@ -1,7 +1,7 @@
 import { GetServerSideProps } from "next";
 import { prisma } from "../server/prisma";
 import dateOptions from "../lib/dateOptions";
-import styles from "../styles/Home.module.css";
+import styles from "../styles/Table.module.css";
 import FlightRow from "../components/FlightRow";
 import { Flight as FlightType } from "@prisma/client";
 

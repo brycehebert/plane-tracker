@@ -2,7 +2,7 @@ import { GetServerSideProps } from "next";
 import { prisma } from "../server/prisma";
 import Plane from "../components/Plane";
 import dateOptions from "../lib/dateOptions";
-import styles from "../styles/Home.module.css";
+import styles from "../styles/Table.module.css";
 
 const index = ({ data }: any): JSX.Element => {
   return (
