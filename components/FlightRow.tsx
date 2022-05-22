@@ -4,9 +4,7 @@ import styles from "../styles/FlightRow.module.css";
 import dateOptions from "../lib/dateOptions";
 import Flight from "./Flight";
 
-const FlightRow = (props: FlightType): JSX.Element => {
-  const { id: flightId } = props;
-
+const FlightRow = (props: FlightType & {callSign?:string}): JSX.Element => {
   const [collapsed, setCollapsed] = useState(true);
   const [transitioning, setTransitioning] = useState(false);
   const [height, setHeight] = useState("0");
@@ -26,8 +24,7 @@ const FlightRow = (props: FlightType): JSX.Element => {
   };
 
   const handleTransitionEnd = (e: React.TransitionEvent) => {
-    const { id } = e.target as EventTarget & { id: string };
-    if (id === flightId) {
+    if (e.target === e.currentTarget) {
       setShowMap(!showMap);
     }
     setTransitioning(false);
@@ -46,14 +43,14 @@ const FlightRow = (props: FlightType): JSX.Element => {
 
 const FlightRowView = (props: ViewProps): JSX.Element => {
   const { toggleCollapse, handleTransitionEnd, showMap, height } = props;
-  const { timeStarted, timeEnded, planeId, id: flightId } = props.flight;
+  const { timeStarted, timeEnded, planeId, id: flightId, callSign } = props.flight;
 
   return (
     <>
       <tr onClick={toggleCollapse}>
         <td>{timeStarted.toLocaleString("en-us", dateOptions)}</td>
-        <td>{timeEnded?.toLocaleString("en-us", dateOptions)}</td>
-        <td>{planeId}</td>
+        <td>{timeEnded ? timeEnded.toLocaleString("en-us", dateOptions): "Ongoing"}</td>
+        <td>{callSign ? callSign : planeId}</td>
       </tr>
       <tr>
         <td
@@ -72,7 +69,7 @@ const FlightRowView = (props: ViewProps): JSX.Element => {
 
 interface ViewProps {
   toggleCollapse: React.MouseEventHandler;
-  flight: FlightType;
+  flight: FlightType & {callSign?: string};
   handleTransitionEnd: React.TransitionEventHandler;
   showMap: boolean;
   height: string;
