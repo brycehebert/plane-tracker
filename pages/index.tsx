@@ -3,28 +3,31 @@ import { prisma } from "../server/prisma";
 import Plane from "../components/Plane";
 import dateOptions from "../lib/dateOptions";
 import styles from "../styles/Table.module.css";
+import Layout from "../components/Layout";
 
 const index = ({ data }: any): JSX.Element => {
   return (
-    <div className={styles.mainContainer}>
-      <table className={styles.flightTable}>
-        <caption>Most Recent Sightings</caption>
-        <thead>
-          <tr>
-            <th scope="col">Photo</th>
-            <th scope="col">Call Sign</th>
-            <th scope="col">First Seen</th>
-            <th scope="col">Last Seen</th>
-            <th scope="col">ICAO Hex</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((el: any) => (
-            <Plane {...el} key={el.id} />
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <Layout>
+      <div className={styles.mainContainer}>
+        <table className={styles.flightTable}>
+          <caption>Most Recent Sightings</caption>
+          <thead>
+            <tr>
+              <th scope="col">Photo</th>
+              <th scope="col">Call Sign</th>
+              <th scope="col">First Seen</th>
+              <th scope="col">Last Seen</th>
+              <th scope="col">ICAO Hex</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((el: any) => (
+              <Plane {...el} key={el.id} />
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </Layout>
   );
 };
 

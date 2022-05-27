@@ -4,26 +4,29 @@ import dateOptions from "../lib/dateOptions";
 import styles from "../styles/Table.module.css";
 import FlightRow from "../components/FlightRow";
 import { Flight as FlightType } from "@prisma/client";
+import Layout from "../components/Layout";
 
 const flights = ({ data }: { data: FlightType[] }) => {
   return (
-    <div className={styles.mainContainer}>
-      <table className={styles.flightTable}>
-        <caption>Most Recent Flights</caption>
-        <thead>
-          <tr>
-            <th role="col">Time Started</th>
-            <th role="col">Time Ended</th>
-            <th role="col">ICAO Hex</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((el) => (
-            <FlightRow {...el} key={el.id} />
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <Layout>
+      <div className={styles.mainContainer}>
+        <table className={styles.flightTable}>
+          <caption>Most Recent Flights</caption>
+          <thead>
+            <tr>
+              <th role="col">Time Started</th>
+              <th role="col">Time Ended</th>
+              <th role="col">ICAO Hex</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((el) => (
+              <FlightRow {...el} key={el.id} />
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </Layout>
   );
 };
 

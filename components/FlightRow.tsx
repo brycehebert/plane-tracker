@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Flight as FlightType } from "@prisma/client";
+import Link from "next/link";
 import styles from "../styles/FlightRow.module.css";
 import dateOptions from "../lib/dateOptions";
 import Flight from "./Flight";
@@ -50,7 +51,7 @@ const FlightRowView = (props: ViewProps): JSX.Element => {
       <tr onClick={toggleCollapse}>
         <td>{timeStarted.toLocaleString("en-us", dateOptions)}</td>
         <td>{timeEnded ? timeEnded.toLocaleString("en-us", dateOptions): "Ongoing"}</td>
-        <td>{callSign ? callSign : planeId}</td>
+        <td><Link href={`/airplane/${planeId}`}>{callSign ? callSign : planeId}</Link></td>
       </tr>
       <tr>
         <td

@@ -4,33 +4,36 @@ import FlightRow from "../../components/FlightRow";
 import dateOptions from "../../lib/dateOptions";
 import { prisma } from "../../server/prisma";
 import styles from "../../styles/Table.module.css";
+import Layout from "../../components/Layout";
 
 const planeId = ({ data }: any): JSX.Element => {
   return (
-    <div className={styles.mainContainer}>
-      <table className={styles.flightTable}>
-        <caption>Flights for {data.icao}</caption>
-        <thead>
-          <tr>
-            <th role="col">Time Started</th>
-            <th role="col">Time Ended</th>
-            <th role="col">Call Sign Used</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.Flights.map((el: any) => {
-            let flight: Flight & { callSign?: string } = {
-              timeStarted: el.timeStarted,
-              timeEnded: el.timeEnded,
-              id: el.id,
-              planeId: el.planeId,
-              callSign: el.Messages[0].callSign
-            };
-            return <FlightRow {...flight} key={el.id} />;
-          })}
-        </tbody>
-      </table>
-    </div>
+    <Layout>
+      <div className={styles.mainContainer}>
+        <table className={styles.flightTable}>
+          <caption>Flights for {data.icao}</caption>
+          <thead>
+            <tr>
+              <th role="col">Time Started</th>
+              <th role="col">Time Ended</th>
+              <th role="col">Call Sign Used</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.Flights.map((el: any) => {
+              let flight: Flight & { callSign?: string } = {
+                timeStarted: el.timeStarted,
+                timeEnded: el.timeEnded,
+                id: el.id,
+                planeId: el.planeId,
+                callSign: el.Messages[0].callSign
+              };
+              return <FlightRow {...flight} key={el.id} />;
+            })}
+          </tbody>
+        </table>
+      </div>
+    </Layout>
   );
 };
 
