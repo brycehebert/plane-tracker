@@ -1,4 +1,5 @@
 import Photo from "./Photo";
+import Link from "next/link";
 
 const Plane = (props: PlaneProps): JSX.Element => {
   const { icao, createdAt, lastSeen, Messages } = props;
@@ -8,7 +9,11 @@ const Plane = (props: PlaneProps): JSX.Element => {
       <td>{Messages.length > 0 ? Messages[0].callSign : ""}</td>
       <td>{createdAt}</td>
       <td>{lastSeen}</td>
-      <td>{icao}</td>
+      <td>
+        <Link href={`/airplane/${icao}`}>
+          <a>{icao}</a>
+        </Link>
+      </td>
     </tr>
   );
 };
